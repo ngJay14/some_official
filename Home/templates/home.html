@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+
+{% block title %}
+New feeds
+{% endblock %}
+
+{% block content %} 
+{% load static%}
+
+
+
+
+<div class="ui segment">
+    {% if post_added %}
+        <div class="notifi__fix">Post added</div>
+    {% endif %}
+    {% comment %} <form action="" method="POST" class='ui form' enctype="multipart/form-data">
+        {% csrf_token %}
+        {{post_form}}
+        <button type='submit' name="submit_post_form" class="ui positive button w-full mt-5">Post</button> 
+
+    </form> {% endcomment %}
+
+    <img src="{{user.profile.ava_pic.url}}" alt="" class="infor__avatar--mall" />
+    <form
+        action=""
+        method="POST"
+        class="ui form"
+        enctype="multipart/form-data">
+        <input type="hidden" />
+        <label for="id_content"></label>
+        {% csrf_token %}
+        <textarea
+            name="content"
+            cols="30"
+            rows="4"
+            placeholder="What's happening ?"
+            required=""
+            id="id_content"
+            class="main__heading__textarea"></textarea>
+
+        <div class="main__heading__groud">
+            <div class="main__heading__box">
+                <div class="file">
+                    <input
+                        type="file"
+                        name="image"
+                        accept="image/*"
+                        id="id_image"
+                        class="file__input" />
+                    <label for="id_image" class="file__label"
+                        ><i class="fa-solid fa-image"></i
+                    ></label>
+                    <figure class="image-container">
+                        <i class="fa-solid fa-plus icon__add"></i>
+                        <img id="chosen-image" />
+                    </figure>
+                </div>
+            </div>
+
+            <button
+                type="submit"
+                name="submit_post_form"
+                class="ui positive button w-full">
+                Post
+            </button>
+        </div>
+    </form>
+
+</div>
+
+<div class="ui grid">
+  <div class="sixteen wide column">
+      {% for obj in qs %}
+        {% if obj.author in friend_profile or obj.author.user == user %}
+        <div class="ui fluid card">
+            <div class="content content-heading">
+                <img class="ui avatar image" src={{obj.author.ava_pic.url}}> 
+                
+                    <div class="warp">
+                      <strong>{{ obj.author.user }}</strong>
+                      
+                      {% comment %} <i style="font-style: italic; margin-left: 3%">{{ obj.created|timesince}} ago</i> {% endcomment %}
+                      <span class="grey">{{ obj.created|timesince}} ago</span>
+                    </div>
+            </div>
+            <p style="margin: 10px; font-size: 15px; "> {{ obj.content }} </p>
+            <div class="ui fluid image">
+                {% if obj.image %}
+                    <img src={{obj.image.url}}>
+                {% endif %}
+            </div>
+            <div class="content">
+              
+                <div class="right floated">
+                  <form action="{% url 'like_post_view' %}" method="POST" class='like-form' id='{{obj.id}}'>
+                      {% csrf_token %}
+                      <input type="hidden" name="post_id" value={{obj.id}}>
+                          <button type="submit" class="ui button like-btn{{obj.id}}">
+                              {% if profile not in obj.liked.all %}
+                              Like
+                              {% else %}
+                              Unlike
+                              {% endif %}
+                          </button> 
+                          <span class="like-count{{obj.id}}"> {{obj.num_likes}} </span>
+                          <span>likes</span>
+                          
+                  </form>
+                </div>
+                <i class="comment icon"></i>
+                <span> {{ obj.num_comments }} </span>
+            </div>
+            <div class="extra content">
+              
+                {% comment %} cmt_btn ui button mb-5 {% endcomment %}
+                <button class=" cmt_btn mb-5 show-comment" onclick="show_hide_comment()">Show / Hide comments</button>
+                <div class="comment-box">
+                {% if obj.comment_set.all %}
+                    {% for c in obj.comment_set.all %}
+                    
+                        <div class="mb-5 comment__box">
+                            <img class="ui avatar image" src={{c.user.ava_pic.url}}>
+                            <div class="comment__warp">
+                              <span>{{ c.user.get_fullname }}</span>
+                              <div class='comment__text'><strong>{{ c.body }}</strong></div>
+                            </div>
+                        </div>
+                    
+                    {% endfor %}
+                {% endif %}
+                </div>
+  
+                <form action="" method="POST"class='ui fluid form'>
+                    {% csrf_token %}
+                    <input type="hidden" name="post_id" value={{obj.id}}>
+                    {{ comment_form }}
+                    {% comment %} <input type="text" name="body" placeholder="Add a comment..." required="" id="id_body" style="width:100%"> {% endcomment %}
+                    <button type="submit" name="submit_comment_form" class="ui primary button mt-5 w-full">Send</button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+  </div>
+</div>
+
+<script>
+  $( document ).ready(function() {
+    let display = false
+    $(".cmt_btn").click(function () {
+        if (display===false) {
+            $(this).next(".comment-box").show("slow");
+            display=true
+        } else {
+            $(this).next(".comment-box").hide("slow");
+            display=false
+        }  
+    });
+  });
+
+  $('.like-form').submit(function(e){
+                e.preventDefault()
+                
+                const post_id = $(this).attr('id')
+                
+                const likeText = $(`.like-btn${post_id}`).text()
+                const trim = $.trim(likeText)
+
+                const url = $(this).attr('action')
+                
+                let res;
+                const likes = $(`.like-count${post_id}`).text()
+                const trimCount = parseInt(likes)
+                
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: {
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val(),
+                        'post_id':post_id,
+                    },
+                    success: function(response) {
+                        if(trim === 'Unlike') {
+                            $(`.like-btn${post_id}`).text('Like')
+                            res = trimCount - 1
+                        } else {
+                            $(`.like-btn${post_id}`).text('Unlike')
+                            res = trimCount + 1
+                        }
+
+                        $(`.like-count${post_id}`).text(res)
+                    },
+                    error: function(response) {
+                        console.log('error', response)
+                    }
+                })
+            });
+
+
+    <!-- show image post icon -->
+    let uploadButton = document.getElementById("id_image");
+    let chosenImage = document.getElementById("chosen-image");
+    let fileName = document.getElementById("file-name");
+
+    uploadButton.onchange = () => {
+        let reader = new FileReader();
+        reader.readAsDataURL(uploadButton.files[0]);
+        reader.onload = () => {
+            chosenImage.setAttribute("src", reader.result);
+        };
+        fileName.textContent = uploadButton.files[0].name;
+    };
+</script>
+
+{% endblock %}

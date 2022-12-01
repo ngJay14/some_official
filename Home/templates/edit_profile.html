@@ -1,0 +1,77 @@
+{% extends 'base.html' %} {% block content %}
+
+<style>
+	#id_bio{
+		padding: 2rem;
+		border-radius: 8px;
+		margin: 1.2rem 1rem 2rem 0.5rem;
+		border: none;
+		width: 100%;
+		height: 10rem;
+		background-color: #ffffff;
+		color: #000000;
+		font-size: 1.2rem;
+		outline: none;
+		transition: all 0.25s linear;
+		resize: none;
+		border: 1px solid #70abd8da;
+	}
+	#id_bio:focus {
+		border-color: #fc556f;
+		box-shadow: 0 0 0 4px rgba(105, 233, 182, 0.752);
+		border: 1px solid rgba(105, 233, 182, 0.752);
+	}
+	#id_bio::-webkit-input-placeholder {
+		color: #b7c1cb;
+		font-size: 1.3rem;
+	}
+	#id_ava_pic{
+		padding:1rem 0 2rem 0;
+	}
+	#id_background_pic{
+		padding:1rem 0 2rem 0;
+	}
+</style>
+<nav class="head heading">Edit information</nav>
+<div class="col-md-6 col-lg-7 d-flex align-items-center">
+	<div class="card-body p-4 p-lg-5 text-black">
+		<div class="form-group" onsubmit="ChangePassSuccessfully()">
+			<form
+				method="POST"
+				enctype="multipart/form-data"
+				style="margin-left: 20%; width: 100%">
+				{% csrf_token %}
+				<div style="margin: 2%">
+					<label for="id_bio" style="font-size: 20px">Bio:</label><br />
+					{{ form.bio }}
+				</div>
+				<div style="margin: 2%">
+					<label for="id_ava_pic" style="font-size: 20px">Ava pic:</label>
+					<br />
+					<div class="" style="margin: 2%; font-size: 1.3rem; "  >{{ form.ava_pic }}</div>
+				</div>
+				<div style="margin: 2%">
+					<label for="id_background_pic" style="font-size: 20px"
+						>Background pic:</label>
+					<br />
+					<div class="" style="margin: 2%; font-size: 1.3rem; ">{{ form.background_pic }}</div>
+				</div>
+
+				<button
+					class="btn btn-outline-success float-right"
+					id="edit-profile-btn"
+					style="margin-top: 2%; margin-right: 5%">
+					Update profile
+				</button>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script>
+	function ChangePassSuccessfully() {
+		alert("Your profile was updated !!!");
+	}
+</script>
+
+{% endblock %}

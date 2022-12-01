@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block content %}
+
+<style></style>
+
+<div class="update">
+	<h1 class="update__title">Updtae post</h1>
+	<form action="" method="POST" class="ui form" enctype="multipart/form-data">
+		{% csrf_token %}
+		<input
+			type="hidden"
+			name="csrfmiddlewaretoken"
+			value="rnGqE23uabmm6aUyBzEEZjdsiXhaqRoob2vuJgRPQ3b4EhXOkVUdb0T3fAd2Npzr" />
+		<label class="title-small" for="id_content">Content:</label>
+		<div
+			name="content"
+			cols="40"
+			rows="2"
+			placeholder="What's happening ???"
+			required=""
+			id="id_content">
+			{{form.content}}
+		</div>
+
+		<div style=" font-size: 1.4rem">{{form.image}}</div>
+
+		<button type="submit" class="ui button primary mt-5">Update</button>
+	</form>
+</div>
+
+{% endblock %}
