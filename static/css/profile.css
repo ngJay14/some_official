@@ -20,6 +20,8 @@ strong {
 	background-position: center;
 	background-repeat: no-repeat;
 	background-color: #121212;
+	overflow:hidden;
+	object-fit: cover;
 }
 .profile-image {
 	width: 160px;
@@ -33,6 +35,8 @@ strong {
 	background-repeat: no-repeat;
 	background-position: center;
 	background-color: white;
+	overflow:hidden;
+	object-fit: cover;
 }
 
 .btn-outline-success {
