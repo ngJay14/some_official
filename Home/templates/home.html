@@ -78,7 +78,7 @@ New feeds
                 <img class="ui avatar image" src={{obj.author.ava_pic.url}}> 
                 
                     <div class="warp">
-                      <strong>{{ obj.author.user }}</strong>
+                      <strong>{{ obj.author.get_fullname }}</strong>
                       
                       {% comment %} <i style="font-style: italic; margin-left: 3%">{{ obj.created|timesince}} ago</i> {% endcomment %}
                       <span class="grey">{{ obj.created|timesince}} ago</span>
