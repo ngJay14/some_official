@@ -346,6 +346,17 @@ select {
 }
 .socical .box {
   padding-left: 4rem;
+  overflow-y: auto;
+}
+.socical .box::-webkit-scrollbar {
+  width: 0.5rem;
+  display: none;
+}
+.socical .box::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+.socical .box::-webkit-scrollbar-thumb {
+  background-color: black;
 }
 .socical .box__search {
   position: relative;
