@@ -57,7 +57,7 @@
                     </button>      
                 {% endif %}
 
-                {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                {% if object.user in rel_sender and request.user not in object.friends.all %}
                     <button class="button"><i class="user icon"></i>
                         Just send request for you
                     </button>      
