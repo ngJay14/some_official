@@ -57,6 +57,11 @@
                     </button>      
                 {% endif %}
 
+                {% if obj.user in rel_sender and request.user not in obj.friends.all %}
+                    <button class="button"><i class="user icon"></i>
+                        Just send request for you
+                    </button>      
+				{% endif %}
                 
                 {% if request.user in object.friends.all %}
                     <form action="{% url 'remove_friend' %}" method="POST">
