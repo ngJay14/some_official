@@ -75,7 +75,9 @@ New feeds
         {% if obj.author in friend_profile or obj.author.user == user %}
         <div class="ui fluid card">
             <div class="content content-heading">
-                <img class="ui avatar image" src={{obj.author.ava_pic.url}}> 
+                <a href="{{ obj.author.get_absolute_url }}">
+                    <img class="ui avatar image" src={{obj.author.ava_pic.url}}> 
+                </a>
                 
                     <div class="warp">
                       <strong>{{ obj.author.get_fullname }}</strong>
@@ -120,7 +122,9 @@ New feeds
                     {% for c in obj.comment_set.all %}
                     
                         <div class="mb-5 comment__box">
-                            <img class="ui avatar image" src={{c.user.ava_pic.url}}>
+                            <a href="{{c.user.get_absolute_url}}">
+                                <img class="ui avatar image" src={{c.user.ava_pic.url}}>
+                            </a>
                             <div class="comment__warp">
                               <span>{{ c.user.get_fullname }}</span>
                               <div class='comment__text'><strong>{{ c.body }}</strong></div>
