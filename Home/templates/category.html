@@ -21,21 +21,16 @@
       </li>
       <li class="category-item">
         <a class="category--link" href="{% url 'friends_profiles_views' %}">
-          <i class="fa-solid fa-people-group"></i>
+          <i class="fa-solid fa-people-group category__icon"></i>
           <span class="category__text">Friends</span>
         </a>
       </li>
 
-      <div class="category-item"  onmouseover="mouseOverToggle()" onmouseleave="mouseOutToggle()">
+      <div class="category-item item_setting"  onmouseover="mouseOverToggle()" onmouseleave="mouseOutToggle()">
         <a class="category--link">
           <i class="fa-solid fa-gear category__icon"></i>
           <span class="category__text" data-toggle="bottom-left">Settings</span>
-          <div id='newDropDown' class="new dropdown" style="background-color: #ffff; 
-                width: 40%; 
-                height: 40%; 
-                margin-left: 4rem; 
-                font-size: 15px;
-                border-radius: 5px">
+          <div id='newDropDown' class="new dropdown">
             {% if user.username %}
               <a class="dropdown-item" href="{% url 'logout' %}" >
                 Logout

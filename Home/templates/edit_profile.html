@@ -32,7 +32,7 @@
 		padding:1rem 0 2rem 0;
 	}
 </style>
-<nav class="head heading">Edit information</nav>
+<nav class="head heading">Edit profile</nav>
 <div class="col-md-6 col-lg-7 d-flex align-items-center">
 	<div class="card-body p-4 p-lg-5 text-black">
 		<div class="form-group" onsubmit="ChangePassSuccessfully()">
@@ -41,16 +41,16 @@
 				enctype="multipart/form-data"
 				style="margin-left: 20%; width: 100%">
 				{% csrf_token %}
-				<div style="margin: 2%">
+				<div>
 					<label for="id_bio" style="font-size: 20px">Bio:</label><br />
 					{{ form.bio }}
 				</div>
-				<div style="margin: 2%">
+				<div>
 					<label for="id_ava_pic" style="font-size: 20px">Ava pic:</label>
 					<br />
 					<div class="" style="margin: 2%; font-size: 1.3rem; "  >{{ form.ava_pic }}</div>
 				</div>
-				<div style="margin: 2%">
+				<div>
 					<label for="id_background_pic" style="font-size: 20px"
 						>Background pic:</label>
 					<br />
